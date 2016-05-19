@@ -1,0 +1,97 @@
+<html>
+<head>
+  <title>Dion Lauriente</title>
+  <meta name="description" content="Dion Lauriente's professional website.">
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta property="og:url"                content="http://dionlauriente.com" />
+  <meta property="og:type"               content="website" />
+  <meta property="og:title"              content="Dion Lauriente" />
+  <meta property="og:description"        content="Dion Lauriente's official website." />
+  <meta property="og:image"              content="http://dionlauriente.com/Dion1.png" />
+  <style type="text/css">
+    html, body{
+      overflow: hidden;
+      margin: 0px;
+    }
+
+    #bg {
+      display: none;
+    }
+    .flipped {
+      -moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      filter: FlipH;
+      -ms-filter: "FlipH";
+    }
+  </style>
+</head>
+<body>
+  <img id="bg" src="Underwater.jpeg" style="z-index: -1; position: fixed;">
+  <img src="/Dion1.png" class="dion" style="position: fixed; left: -1000px;">
+  <img src="/Dion1.png" class="dion" style="position: fixed; left: -1000px;">
+  <img src="/Dion2.png" class="dion" style="position: fixed; left: -1000px;">
+  <img src="/Dion2.png" class="dion" style="position: fixed; left: -1000px;">
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript">
+    var swimSpeed = 100;
+
+    $(document).ready(function(){
+      $body = $(document.body);
+
+      if ($body.width() > $body.height()) {
+        $("#bg").width('100%').show();
+      } else {
+        $("#bg").height('100%').show();
+      }
+
+      $('.dion').each(animateImage);
+
+      function animateImage (index, img) {
+          var $img = $(img),
+            z = Math.random(),
+            index = z * 100;
+
+          // let's set a minimum size so we don't get a .00001 number that basically
+          // makes the fish disappear.
+          while (z < 0.05) {
+            z = Math.random();
+          }
+
+          $img.css('z-index', Math.round(index));
+          img.style.opacity = z;
+          img.style.height = img.naturalHeight * z + 'px';
+          img.style.width = img.naturalWidth * z + 'px';
+          img.style.top = ($body.height()/2 - $img.height()) * Math.random();
+
+          // decide direction
+          if (Math.random() > 0.5) {
+            // ltr
+            $img.removeClass('flipped');
+            img.style.left = 0 - 100 - $img.width() + 'px';
+
+            $img.animate({
+              left: $body.width() + 50
+            }, 5000 / z);
+          } else {
+            // rtl
+            img.style.left = $body.width() + 100;
+            $img.addClass('flipped');
+
+            $img.animate({
+              left: 0 - 100 - $img.width() + 'px'
+            }, 5000 / z);
+          }
+          
+
+          setTimeout(function() {
+            animateImage(index, img);
+          }, 5000 / z + 1000)
+      }
+    });
+  </script>
+</body>
+</html>
